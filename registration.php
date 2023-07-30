@@ -1,144 +1,117 @@
 <?php
 require('connection.php');
-extract($_POST);
-if (isset($save)) {
-	//check user alereay exists or not
-	$sql = mysqli_query($conn, "select * from user where email='$e'");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    extract($_POST);
 
-	$r = mysqli_num_rows($sql);
+    // Check if the email already exists in the database
+    $mysqli = new mysqli('127.0.0.1', 'root', '', 'notice_board_system', '3307');
+    $sql = "SELECT * FROM students WHERE email='$email'";
+    $result = mysqli_query($mysqli, $sql);
 
-	if ($r == true) {
-		$err = "<font color='red'>This user already exists</font>";
-	} else {
-		//dob
-		$dob = $yy . "-" . $mm . "-" . $dd;
+    if (!$result) {
+        die("Query error: " . mysqli_error($mysqli));
+    }
 
-		//hobbies
-		$hob = implode(",", $hob);
+    $r = mysqli_num_rows($result);
 
-		//image
-		$imageName = $_FILES['img']['name'];
+    if ($r > 0) {
+        $err = "<font color='red'>This user already exists</font>";
+    } else {
+        //dob
+        $dob = $yy . "-" . $mm . "-" . $dd;
 
+        //encrypt your password
+        $pass = md5($password);
 
-		//encrypt your password
-		$pass = md5($p);
+        $query = "INSERT INTO students (name, rollNo, email, password, phoneNo, branch, dob) 
+        VALUES ('$name', '$rollNo', '$email', '$pass', '$phoneNo', '$branch', '$dob')";
 
+        $result = mysqli_query($mysqli, $query);
 
-		$query = "insert into user values('','$n','$e','$pass','$mob','$gen','$hob','$imageName','$dob',now())";
-		mysqli_query($conn, $query);
+        if (!$result) {
+            die("Query error: " . mysqli_error($mysqli));
+        } else {
+            echo "Registration successful! Data inserted into the database.";
+        }
 
-		//upload image
-
-		mkdir("images/$e");
-		move_uploaded_file($_FILES['img']['tmp_name'], "images/$e/" . $_FILES['img']['name']);
-
-
-		$err = "<font color='blue'>Registration successfull !!</font>";
-	}
+        $err = "<font color='blue'>Registration successful!!</font>";
+    }
 }
-
-
-
-
 ?>
-<h2><b>REGISTRATION FORM</b></h2>
-<form method="post" enctype="multipart/form-data">
-	<table class="table table-bordered">
-		<Tr>
-			<Td colspan="2"><?php echo @$err; ?></Td>
-		</Tr>
 
-		<tr>
-			<td>Your Name</td>
-			<Td><input type="text" class="form-control" name="n" required /></td>
-		</tr>
-		<tr>
-			<td>Your Email </td>
-			<Td><input type="email" class="form-control" name="e" required /></td>
-		</tr>
+<!DOCTYPE html>
+<html lang="en">
 
-		<tr>
-			<td>Your Password </td>
-			<Td><input type="password" class="form-control" name="p" required /></td>
-		</tr>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | Notice Board System</title>
+</head>
 
-		<tr>
-			<td>Your Mobile No. </td>
-			<Td><input class="form-control" type="number" name="mob" required /></td>
-		</tr>
+<body>
 
-		<tr>
-			<td>Select Your Gender</td>
-			<Td>
-				Male<input type="radio" name="gen" value="m" required />
-				Female<input type="radio" name="gen" value="f" />
-			</td>
-		</tr>
+    <!-- Registration form -->
+    <div class="container">
+        <h2>Registration Form</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="rollNo">Roll No:</label>
+                <input type="text" id="rollNo" name="rollNo" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <select name="yy" required>
+                    <option value="">Year</option>
+                    <?php
+                    for ($i = 1950; $i <= 2016; $i++) {
+                        echo "<option>" . $i . "</option>";
+                    }
+                    ?>
+                </select>
 
-		<tr>
-			<td>Choose Your Hobbies</td>
-			<Td>
-				Reading<input value="reading" type="checkbox" name="hob[]" />
-				Singing<input value="singin" type="checkbox" name="hob[]" />
+                <select name="mm" required>
+                    <option value="">Month</option>
+                    <?php
+                    for ($i = 1; $i <= 12; $i++) {
+                        echo "<option>" . $i . "</option>";
+                    }
+                    ?>
+                </select>
 
-				Playing<input value="playing" type="checkbox" name="hob[]" />
-			</td>
-		</tr>
+                <select name="dd" required>
+                    <option value="">Date</option>
+                    <?php
+                    for ($i = 1; $i <= 31; $i++) {
+                        echo "<option>" . $i . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phoneNo">Phone No:</label>
+                <input type="tel" id="phoneNo" name="phoneNo" required>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+            <button type="submit" name="save">Register</button>
+        </form>
+        <?php echo isset($err) ? $err : ''; ?>
+    </div>
 
-
-		<tr>
-			<td>Upload Your Image </td>
-			<Td><input class="form-control" type="file" name="img" required /></td>
-		</tr>
-
-		<tr>
-			<td>Date of Birth</td>
-			<Td>
-				<select name="yy" required>
-					<option value="">Year</option>
-					<?php
-					for ($i = 1950; $i <= 2016; $i++) {
-						echo "<option>" . $i . "</option>";
-					}
-					?>
-
-				</select>
-
-				<select name="mm" required>
-					<option value="">Month</option>
-					<?php
-					for ($i = 1; $i <= 12; $i++) {
-						echo "<option>" . $i . "</option>";
-					}
-					?>
-
-				</select>
-
-
-				<select name="dd" required>
-					<option value="">Date</option>
-					<?php
-					for ($i = 1; $i <= 31; $i++) {
-						echo "<option>" . $i . "</option>";
-					}
-					?>
-
-				</select>
-
-			</td>
-		</tr>
-
-		<tr>
-
-
-			<Td colspan="2" align="center">
-				<input type="submit" class="btn btn-success" value="Save" name="save" />
-				<input type="reset" class="btn btn-success" value="Reset" />
-
-			</td>
-		</tr>
-	</table>
-</form>
 </body>
 
 </html>

@@ -1,36 +1,48 @@
 <?php
-extract($_POST);
-if (isset($save)) {
 
-	if ($e == "" || $p == "") {
-		$err = "<font color='red'>fill all the fileds first</font>";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$e = $_POST['e'];
+	$p = $_POST['p'];
+
+	if (empty($e) || empty($p)) {
+		$err = "<font color='red'>Fill all the fields first</font>";
 	} else {
+		$mysqli = new mysqli('127.0.0.1', 'root', '', 'notice_board_system', '3307');
+
+		if ($mysqli->connect_errno) {
+			die("Database connection error: " . $mysqli->connect_error);
+		}
+
 		$pass = md5($p);
 
-		$sql = mysqli_query($conn, "select * from user where email='$e' and pass='$pass'");
+		$sql = "SELECT * FROM students WHERE email='$e' AND password='$pass'";
+		$result = $mysqli->query($sql);
 
-		$r = mysqli_num_rows($sql);
+		if (!$result) {
+			die("Query error: " . $mysqli->error);
+		}
 
-		if ($r == true) {
-			$_SESSION['user'] = $e;
-			header('location:user');
+		$r = $result->num_rows;
+
+		if ($r == 1) {
+			$_SESSION['students'] = $e;
+			header('Location: user/index.php');
+			exit;
 		} else {
-
 			$err = "<font color='red'>Invalid login details</font>";
 		}
+
+		$mysqli->close();
 	}
 }
-
 ?>
-<h2><b>LOGIN FORM</B></h2>
-<form method="post">
 
+<h2><b>LOGIN FORM</b></h2>
+<form method="post">
 	<div class="row">
 		<div class="col-sm-4"></div>
-		<div class="col-sm-4"><?php echo @$err; ?></div>
+		<div class="col-sm-4"><?php echo isset($err) ? $err : ''; ?></div>
 	</div>
-
-
 
 	<div class="row">
 		<div class="col-sm-4">Email ID</div>
@@ -49,7 +61,6 @@ if (isset($save)) {
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 			<input type="submit" value="Login" name="save" class="btn btn-success" />
-
 		</div>
 	</div>
 </form>

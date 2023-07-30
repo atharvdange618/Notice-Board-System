@@ -1,10 +1,20 @@
 <?php
 session_start();
 include('../connection.php');
+
+// Check if the user is logged in
+if (!isset($_SESSION['user']) || $_SESSION['user'] === null) {
+  // Redirect to the login page if not logged in
+  header('Location: ../login.php');
+  exit;
+}
+
+// Get the user's email from the session
 $user = $_SESSION['user'];
-$sql = mysqli_query($conn, "select * from user where email='$user' ");
-$users = mysqli_fetch_assoc($sql);
+
+echo $user;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +27,7 @@ $users = mysqli_fetch_assoc($sql);
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
 
-  <title>Online Notice Board User Dashboard</title>
+  <title>Notice Board User Dashboard</title>
 
   <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -32,11 +42,6 @@ $users = mysqli_fetch_assoc($sql);
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
   <script src="../js/ie-emulation-modes-warning.js"></script>
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
@@ -57,9 +62,6 @@ $users = mysqli_fetch_assoc($sql);
 
           <li><a href="logout.php">Logout</a></li>
         </ul>
-        <!--<form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>-->
       </div>
     </div>
   </nav>
@@ -73,7 +75,7 @@ $users = mysqli_fetch_assoc($sql);
 
           <!-- check users profile image -->
           <?php
-          $q = mysqli_query($conn, "select image from user where email='" . $_SESSION['user'] . "'");
+          $q = mysqli_query($mysqli, "select image from students where email='" . $_SESSION['user'] . "'");
           $row = mysqli_fetch_assoc($q);
           if ($row['image'] == "") {
           ?>
