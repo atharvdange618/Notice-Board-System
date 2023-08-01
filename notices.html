@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices</title>
+<link rel="stylesheet" href="notices.css">
+</head>
+
+<body>
+    <header>
+        <h1>Notice Board & Resource Sharing</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="resources.html">View Resources</a>
+            <a href="submit.html">Submit</a>
+            <a href="login.html">Login</a>
+            
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><b>New Notices</b></div>
+                    <div class="panel-body">
+                        <ul id="noticesList"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch notices from the PHP script
+            fetch("get_notices.php")
+                .then(response => response.json())
+                .then(data => {
+                    // Update the DOM with the fetched notices
+                    const noticesList = document.getElementById("noticesList");
+                    data.forEach(notice => {
+                        const listItem = document.createElement("li");
+                        listItem.className = "notice-item";
+                        listItem.innerHTML = `
+                    <h3>${notice.title}</h3>
+                    <p>${notice.content}</p>
+                `;
+                        noticesList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error("Error fetching notices:", error));
+        });
+    </script>
+</body>
+
+</html>

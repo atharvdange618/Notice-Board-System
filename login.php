@@ -1,66 +1,46 @@
 <?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$e = $_POST['e'];
-	$p = $_POST['p'];
+    // Create a connection to the database
+    $mysqli = new mysqli('127.0.0.1', 'root', '', 'notices_resources', '3307');
 
-	if (empty($e) || empty($p)) {
-		$err = "<font color='red'>Fill all the fields first</font>";
-	} else {
-		$mysqli = new mysqli('127.0.0.1', 'root', '', 'notice_board_system', '3307');
+    // Check the connection
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
-		if ($mysqli->connect_errno) {
-			die("Database connection error: " . $mysqli->connect_error);
-		}
+    // Get the user input from the login form
+    $input_username = $_POST["username"];
+    $input_password = $_POST["password"];
 
-		$pass = md5($p);
+    // Query to fetch the user from the database
+    $sql = "SELECT * FROM users WHERE username = '$input_username'";
+    $result = mysqli_query($mysqli, $sql);
 
-		$sql = "SELECT * FROM students WHERE email='$e' AND password='$pass'";
-		$result = $mysqli->query($sql);
+    // Check if the user exists
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        $stored_password = $row["password"];
 
-		if (!$result) {
-			die("Query error: " . $mysqli->error);
-		}
+        // Verify the password
+        if (password_verify($input_password, $stored_password)) {
+            // Password is correct, user is logged in
+            session_start();
+            $_SESSION["username"] = $input_username;
+            header("Location: dashboard.html"); // Redirect to the dashboard page
+            exit();
+        } else {
+            // Password is incorrect
+            header("Location: login.html?error=invalid_credentials"); // Redirect back to the login page with an error message
+            exit();
+        }
+    } else {
+        // User does not exist
+        header("Location: login.html?error=invalid_credentials"); // Redirect back to the login page with an error message
+        exit();
+    }
 
-		$r = $result->num_rows;
-
-		if ($r == 1) {
-			$_SESSION['students'] = $e;
-			header('Location: user/index.php');
-			exit;
-		} else {
-			$err = "<font color='red'>Invalid login details</font>";
-		}
-
-		$mysqli->close();
-	}
+    // Close the database connection
+    mysqli_close($mysqli);
 }
 ?>
-
-<h2><b>LOGIN FORM</b></h2>
-<form method="post">
-	<div class="row">
-		<div class="col-sm-4"></div>
-		<div class="col-sm-4"><?php echo isset($err) ? $err : ''; ?></div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-4">Email ID</div>
-		<div class="col-sm-5">
-			<input type="email" name="e" class="form-control" />
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-4">Password</div>
-		<div class="col-sm-5">
-			<input type="password" name="p" class="form-control" />
-		</div>
-	</div>
-	<div class="row" style="margin-top:10px">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
-			<input type="submit" value="Login" name="save" class="btn btn-success" />
-		</div>
-	</div>
-</form>

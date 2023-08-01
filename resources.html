@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources</title>
+    <link rel="stylesheet" href="resources.css">
+</head>
+
+<body>
+    <header>
+        <h1>Notice Board & Resource Sharing</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="notices.html">View Notices</a>
+            <a href="submit.html">Submit</a>
+            <a href="login.html">Login</a>
+            
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><b>Search Resources</b></div>
+                    <div class="panel-body">
+                        <input type="text" id="searchInput" placeholder="Enter your search query">
+                        <button onclick="searchResources()">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><b>Resources</b></div>
+                    <div class="panel-body">
+                        <ul id="resourcesList"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Function to fetch and filter resources based on the search query
+        function searchResources() {
+            const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+
+            // Fetch resources from the PHP script
+            fetch("get_resources.php")
+                .then(response => response.json())
+                .then(data => {
+                    // Filter resources based on the search query
+                    const filteredResources = data.filter(resource => {
+                        const title = resource.title.toLowerCase();
+                        return title.includes(searchQuery);
+                    });
+
+                    // Update the DOM with the filtered resources
+                    const resourcesList = document.getElementById("resourcesList");
+                    resourcesList.innerHTML = "";
+                    filteredResources.forEach(resource => {
+                        const listItem = document.createElement("li");
+                        listItem.className = "resource-item";
+                        listItem.innerHTML = `
+                            <h3><a href="${resource.file_path}">${resource.title}</a></h3>`;
+                        resourcesList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error("Error fetching resources:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load all resources on page load
+            searchResources();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Applications</title>
+    <link rel="stylesheet" href="manage_applications.css">
+</head>
+
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+        <div id="user-info">
+            <!-- Display the user's name here -->
+        </div>
+        <!-- Add this HTML for the hamburger menu -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776;
+        </div>
+        <nav class="menu" id="menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="manage_applications.html">Manage Applications</a>
+            <!-- Add more navigation links here as needed -->
+            <a href="logout.php">Logout</a> <!-- Add a link to the logout PHP script -->
+        </nav>
+    </header>
+    <main>
+        <section id="applications">
+            <h2>Manage Applications</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Application Date</th>
+                        <th>Application Status</th>
+                        <th>Application Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationTableBody">
+                    <!-- Data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            menu.classList.toggle("open");
+        }
+
+        // Function to fetch and display applications data from the server
+        function fetchApplications() {
+            fetch("fetch_applications.php")
+                .then(response => response.json())
+                .then(data => {
+                    const applicationTableBody = document.getElementById("applicationTableBody");
+                    applicationTableBody.innerHTML = ""; // Clear existing data in the table body
+
+                    data.forEach(application => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${application.companyName}</td>
+                            <td>${application.applicationDate}</td>
+                            <td>${application.applicationStatus}</td>
+                            <td>${application.applicationNotes}</td>
+                            <td>
+                                <button onclick="editApplication(${application.id})">Edit</button>
+                                <button onclick="deleteApplication(${application.id})">Delete</button>
+                            </td>
+                        `;
+                        applicationTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching applications:", error);
+                    alert("An error occurred while fetching applications. Please try again later.");
+                });
+        }
+
+        // Function to edit an application
+        function editApplication(applicationId) {
+            // Implement your logic here to handle editing an application
+            alert(`Editing application with ID ${applicationId}`);
+        }
+
+        // Function to delete an application
+        function deleteApplication(applicationId) {
+            // Implement your logic here to handle deleting an application
+            alert(`Deleting application with ID ${applicationId}`);
+        }
+
+        // Fetch applications when the page loads
+        fetchApplications();
+
+        // Function to display the user's name
+        function displayUserInfo() {
+            // You need to implement server-side code to retrieve the user's name from the session
+            // For example, if you are using PHP, you can use $_SESSION to store and retrieve the user's name.
+            const userName = "John Doe"; // Replace this with the actual user's name fetched from the session
+
+            const userInfoContainer = document.getElementById("user-info");
+            userInfoContainer.textContent = `Welcome, ${userName}!`;
+        }
+
+        // Call the displayUserInfo function when the page loads to display the user's name
+        displayUserInfo();
+    </script>
+</body>
+
+</html>

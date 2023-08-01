@@ -1,0 +1,133 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Header Styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    margin-top: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #007bff;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+
+    /* Hamburger Menu Styles */
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 100%;
+        background-color: #333;
+    }
+
+    .menu.open {
+        display: block;
+    }
+
+    .menu a {
+        display: block;
+        padding: 8px 12px;
+        background-color: #007bff;
+        border-radius: 5px;
+        margin: 5px auto;
+    }
+}
+
+/* Section Styles */
+main {
+    padding: 20px;
+}
+
+#heading {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#heading h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+#application-form {
+    background-color: #fff;
+    padding: 20px;
+}
+
+#application-form h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+#applicationForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#applicationForm input[type="text"],
+#applicationForm input[type="date"],
+#applicationForm button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#applicationForm button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#applicationForm button:hover {
+    background-color: #0056b3;
+}
+
+#applicationForm input[type="text"]:focus,
+#applicationForm input[type="date"]:focus {
+    outline: none;
+    border-color: #007bff;
+}

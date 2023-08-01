@@ -38,49 +38,49 @@ main {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-main h2 {
+/* Form Styles */
+h2 {
     color: #333;
+    margin-top: 0;
 }
 
-main p {
-    color: #666;
-}
-
-/* Notice Section Styles */
-.all-browsers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.browser {
-    flex-basis: calc(33.33% - 20px);
+form {
     margin-bottom: 20px;
-    padding: 20px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
-/* Footer Styles */
-footer {
+textarea {
+    resize: vertical;
+}
+
+button {
     background-color: #333;
     color: #fff;
-    text-align: center;
-    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+}
+
+button:hover {
+    background-color: #444;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
     main {
         padding: 10px;
-    }
-
-    .all-browsers {
-        flex-direction: column;
-    }
-
-    .browser {
-        flex-basis: 100%;
     }
 }

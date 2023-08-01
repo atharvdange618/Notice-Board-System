@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit</title>
+<link rel="stylesheet" href="submit.css">
+</head>
+
+<body>
+    <header>
+        <h1>Notice Board & Resource Sharing</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="notices.html">View Notices</a>
+            <a href="resources.html">View Resources</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Submit Notice</h2>
+            <!-- Add a form to submit notices -->
+            <form id="noticeForm" action="submit_notice.php" method="POST">
+                <input type="text" name="noticeTitle" placeholder="Enter Notice Title" required>
+                <textarea name="noticeContent" placeholder="Enter Notice Content" required></textarea>
+                <button type="submit">Submit Notice</button>
+            </form>
+        </section>
+        <section>
+            <h2>Share Resource</h2>
+            <!-- Add a form to share resources -->
+            <form id="resourceForm" action="share_resource.php" method="POST">
+                <input type="text" name="resourceTitle" placeholder="Enter Resource Title" required>
+                <input type="text" name="resourceLink" placeholder="Enter Resource Link" required>
+                <button type="submit">Submit Resource</button>
+            </form>            
+        </section>
+    </main>
+</body>
+
+</html>

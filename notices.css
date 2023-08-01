@@ -38,36 +38,37 @@ main {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-main h2 {
-    color: #333;
-}
-
-main p {
-    color: #666;
-}
-
-/* Notice Section Styles */
-.all-browsers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.browser {
-    flex-basis: calc(33.33% - 20px);
-    margin-bottom: 20px;
+/* Notice Panel Styles */
+.panel {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel-heading {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Notice Item Styles */
+.notice-item {
+    margin-bottom: 20px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer Styles */
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
+.notice-item h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+.notice-item p {
+    color: #666;
 }
 
 /* Responsive Styles */
@@ -76,11 +77,7 @@ footer {
         padding: 10px;
     }
 
-    .all-browsers {
-        flex-direction: column;
-    }
-
-    .browser {
-        flex-basis: 100%;
+    .panel {
+        margin: 10px 0;
     }
 }

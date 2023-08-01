@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+        <!-- Add this HTML for the hamburger menu -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776;
+        </div>
+        <nav class="menu" id="menu">
+            <a href="index.html">Home</a>
+            <a href="manage_applications.html">Manage Applications</a>
+            <!-- Add more navigation links here as needed -->
+        </nav>
+
+    </header>
+    <main>
+        <section id="heading">
+            <!-- Add dashboard content here -->
+            <h2>Welcome to Your Dashboard</h2>
+            <p>This is where you can manage your applications for different companies.</p>
+        </section>
+        <section id="application-form">
+            <h2>Add Application Details</h2>
+            <form id="applicationForm" onsubmit="return addApplication()">
+                <input type="text" name="companyName" placeholder="Company Name" required>
+                <input type="date" name="applicationDate" required>
+                <input type="text" name="applicationStatus" placeholder="Application Status" required>
+                <input type="text" name="applicationNotes" placeholder="Application Notes">
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            menu.classList.toggle("open");
+        }
+
+        function addApplication() {
+            const companyName = document.getElementById("applicationForm").companyName.value;
+            const applicationDate = document.getElementById("applicationForm").applicationDate.value;
+            const applicationStatus = document.getElementById("applicationForm").applicationStatus.value;
+            const applicationNotes = document.getElementById("applicationForm").applicationNotes.value;
+
+            // Create a new FormData object to send form data in the POST request
+            const formData = new FormData();
+            formData.append("companyName", companyName);
+            formData.append("applicationDate", applicationDate);
+            formData.append("applicationStatus", applicationStatus);
+            formData.append("applicationNotes", applicationNotes);
+
+            // Make an HTTP POST request to add_application.php using fetch API
+            fetch("add_application.php", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => {
+                    // Check the response status and display success or error message
+                    if (response.ok) {
+                        alert("Application added successfully!");
+                        // Redirect to the dashboard page after successful submission
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert("Failed to add application. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error during application submission:", error);
+                    alert("An error occurred during application submission. Please try again later.");
+                });
+
+            // Prevent form submission
+            return false;
+        }
+    </script>
+
+</body>
+
+</html>

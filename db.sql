@@ -1,13 +1,17 @@
-CREATE DATABASE IF NOT EXISTS notice_board_system;
-USE notice_board_system;
+-- Create a new database
+CREATE DATABASE IF NOT EXISTS if0_34553427_notices_resources;
 
-CREATE TABLE IF NOT EXISTS students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    rollNo VARCHAR(20) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    dob DATE NOT NULL,
-    phoneNo VARCHAR(15) NOT NULL,
-    branch VARCHAR(100) NOT NULL
+-- Use the newly created database
+USE if0_34553427_notices_resources;
+
+-- Table for storing notices
+CREATE TABLE IF NOT EXISTS notices (
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+);
+
+-- Table for storing resources
+CREATE TABLE IF NOT EXISTS resources (
+    title VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL
 );

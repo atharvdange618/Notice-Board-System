@@ -1,0 +1,155 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Header Styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    margin-top: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #007bff;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+
+    /* Hamburger Menu Styles */
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 100%;
+        background-color: #333;
+    }
+
+    .menu.open {
+        display: block;
+    }
+
+    .menu a {
+        display: block;
+        padding: 8px 12px;
+        background-color: #007bff;
+        border-radius: 5px;
+        margin: 5px auto;
+    }
+
+    /* Add this style to center the table in mobile view */
+    #applications table {
+        margin: 0 auto;
+        max-width: 600px;
+    }
+}
+
+/* Section Styles */
+main {
+    padding: 20px;
+}
+
+#applications {
+    background-color: #fff;
+    padding: 10px;
+}
+
+#applications h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+table th {
+    background-color: #f0f0f0;
+    text-align: left;
+    font-size: small;
+}
+
+table td {
+    text-align: center;
+}
+
+/* Style the table actions buttons */
+table td button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+table td button:nth-child(1) {
+    background-color: #007bff;
+    color: #fff;
+}
+
+table td button:nth-child(2) {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Style the table actions buttons on hover */
+table td button:hover {
+    opacity: 0.8;
+}
+
+/* Style the user info */
+#user-info {
+    color: #333;
+    font-size: 14px;
+    padding: 5px;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    #user-info {
+        text-align: center;
+    }
+}
