@@ -51,6 +51,7 @@ main {
     background-color: #333;
     color: #fff;
     padding: 10px;
+    border-radius: 5px;
 }
 
 /* Notice Item Styles */
@@ -79,5 +80,18 @@ main {
 
     .panel {
         margin: 10px 0;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+
+    nav a {
+        margin: 0 5px;
     }
 }

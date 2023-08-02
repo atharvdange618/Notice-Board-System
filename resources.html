@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources</title>
+
     <link rel="stylesheet" href="resources.css">
 </head>
 
@@ -16,7 +17,7 @@
             <a href="notices.html">View Notices</a>
             <a href="submit.html">Submit</a>
             <a href="login.html">Login</a>
-            
+
         </nav>
     </header>
     <main>
@@ -25,7 +26,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>Search Resources</b></div>
                     <div class="panel-body">
-                        <input type="text" id="searchInput" placeholder="Enter your search query">
+                        <div class="form-control">
+                            <input class="input input-alt" placeholder="Type something intelligent" id="searchInput"
+                                required="" type="text">
+                            <span class="input-border input-border-alt"></span>
+                        </div>
+
                         <button onclick="searchResources()">Search</button>
                     </div>
                 </div>

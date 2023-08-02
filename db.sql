@@ -1,8 +1,8 @@
 -- Create a new database
-CREATE DATABASE IF NOT EXISTS if0_34553427_notices_resources;
+CREATE DATABASE IF NOT EXISTS if0_34736713_notices_resources;
 
 -- Use the newly created database
-USE if0_34553427_notices_resources;
+USE if0_34736713_notices_resources;
 
 -- Table for storing notices
 CREATE TABLE IF NOT EXISTS notices (

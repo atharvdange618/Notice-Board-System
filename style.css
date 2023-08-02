@@ -72,8 +72,17 @@ footer {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    main {
-        padding: 10px;
+    header {
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+
+    nav a {
+        margin: 0 5px;
     }
 
     .all-browsers {
@@ -82,5 +91,7 @@ footer {
 
     .browser {
         flex-basis: 100%;
+        margin-bottom: 15px;
+        /* Adjust margin for better spacing on smaller screens */
     }
 }

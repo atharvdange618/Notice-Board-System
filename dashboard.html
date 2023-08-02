@@ -16,21 +16,21 @@
             &#9776;
         </div>
         <nav class="menu" id="menu">
-            <a href="index.html">Home</a>
             <a href="manage_applications.html">Manage Applications</a>
-            <!-- Add more navigation links here as needed -->
+            <a href="logout.php">Logout</a>
         </nav>
 
     </header>
     <main>
         <section id="heading">
             <!-- Add dashboard content here -->
-            <h2>Welcome to Your Dashboard</h2>
+            <h2>Welcome to Your Dashboard, <span id="username"></span></h2>
             <p>This is where you can manage your applications for different companies.</p>
         </section>
         <section id="application-form">
             <h2>Add Application Details</h2>
             <form id="applicationForm" onsubmit="return addApplication()">
+                <input type="text" name="username" placeholder="Username" required>
                 <input type="text" name="companyName" placeholder="Company Name" required>
                 <input type="date" name="applicationDate" required>
                 <input type="text" name="applicationStatus" placeholder="Application Status" required>
@@ -46,13 +46,15 @@
         }
 
         function addApplication() {
-            const companyName = document.getElementById("applicationForm").companyName.value;
-            const applicationDate = document.getElementById("applicationForm").applicationDate.value;
-            const applicationStatus = document.getElementById("applicationForm").applicationStatus.value;
-            const applicationNotes = document.getElementById("applicationForm").applicationNotes.value;
+            const username = document.getElementById("applicationForm").elements.username.value;
+            const companyName = document.getElementById("applicationForm").elements.companyName.value;
+            const applicationDate = document.getElementById("applicationForm").elements.applicationDate.value;
+            const applicationStatus = document.getElementById("applicationForm").elements.applicationStatus.value;
+            const applicationNotes = document.getElementById("applicationForm").elements.applicationNotes.value;
 
             // Create a new FormData object to send form data in the POST request
             const formData = new FormData();
+            formData.append("username", username);
             formData.append("companyName", companyName);
             formData.append("applicationDate", applicationDate);
             formData.append("applicationStatus", applicationStatus);
@@ -81,6 +83,22 @@
             // Prevent form submission
             return false;
         }
+
+        console.log("Script is running"); // Add this line
+
+        function fetchAndDisplayUsername() {
+        fetch("get_username.php")
+            .then(response => response.text())
+            .then(username => {
+                const usernameSpan = document.getElementById("username");
+                usernameSpan.textContent = username;
+            })
+            .catch(error => {
+                console.error("Error fetching username:", error);
+            });
+    }
+
+    window.addEventListener("load", fetchAndDisplayUsername);
     </script>
 
 </body>

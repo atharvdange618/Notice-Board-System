@@ -1,42 +1,48 @@
 <?php
-// Replace these database credentials with your own
-$servername = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database";
+session_start(); // Start the session
 
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
 
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    // Create a database connection
+    $servername = "127.0.0.1";
+    $dbUsername = "root";
+    $password = "";
+    $dbname = "notices_resources";
+    $dbport = "3307";
 
-// Query to fetch applications data from the database
-$sql = "SELECT id, companyName, applicationDate, applicationStatus, applicationNotes FROM applications";
+    $mysqli = new mysqli($servername, $dbUsername, $password, $dbname, $dbport);
 
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // Fetch data from the database and store it in an array
-    $applications = array();
-    while ($row = $result->fetch_assoc()) {
-        $applications[] = array(
-            "id" => $row["id"],
-            "companyName" => $row["companyName"],
-            "applicationDate" => $row["applicationDate"],
-            "applicationStatus" => $row["applicationStatus"],
-            "applicationNotes" => $row["applicationNotes"]
-        );
+    // Check connection
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
     }
 
-    // Convert the array to JSON format and send it as the response
-    header("Content-Type: application/json");
-    echo json_encode($applications);
-} else {
-    echo "No applications found.";
-}
+    // Fetch applications from the database
+    $sql = "SELECT * FROM user_applications WHERE username = '$username' ORDER BY company_name";
+    $result = $mysqli->query($sql);
 
-$conn->close();
+    if ($result) {
+        $applications = array();
+        while ($row = $result->fetch_assoc()) {
+            $applications[] = $row;
+        }
+
+        // Return applications data as JSON response
+        header('Content-Type: application/json');
+        echo json_encode($applications);
+    } else {
+        error_log("Database error: " . $mysqli->error); // Log the error message
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode(array('error' => 'Database error'));
+    }
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    $mysqli->close();
+} else {
+    header('HTTP/1.1 403 Forbidden');
+    echo json_encode(array('error' => 'User not logged in'));
+}
 ?>

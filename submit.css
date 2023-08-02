@@ -50,7 +50,7 @@ form {
 
 input[type="text"],
 textarea {
-    width: 100%;
+    width: 76%; 
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -82,5 +82,19 @@ button:hover {
 @media (max-width: 768px) {
     main {
         padding: 10px;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; /* Add some margin for better spacing */
+    }
+
+    nav a {
+        margin: 0 10px; /* Revert to slightly wider margin for better touch interaction */
     }
 }

@@ -21,8 +21,7 @@
         <nav class="menu" id="menu">
             <a href="dashboard.html">Dashboard</a>
             <a href="manage_applications.html">Manage Applications</a>
-            <!-- Add more navigation links here as needed -->
-            <a href="logout.php">Logout</a> <!-- Add a link to the logout PHP script -->
+            <a href="logout.php">Logout</a>
         </nav>
     </header>
     <main>
@@ -35,10 +34,11 @@
                         <th>Application Date</th>
                         <th>Application Status</th>
                         <th>Application Notes</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="applicationTableBody">
-                    <!-- Data will be dynamically inserted here -->
+
                 </tbody>
             </table>
         </section>
@@ -54,21 +54,22 @@
             fetch("fetch_applications.php")
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     const applicationTableBody = document.getElementById("applicationTableBody");
                     applicationTableBody.innerHTML = ""; // Clear existing data in the table body
 
                     data.forEach(application => {
                         const row = document.createElement("tr");
                         row.innerHTML = `
-                            <td>${application.companyName}</td>
-                            <td>${application.applicationDate}</td>
-                            <td>${application.applicationStatus}</td>
-                            <td>${application.applicationNotes}</td>
-                            <td>
-                                <button onclick="editApplication(${application.id})">Edit</button>
-                                <button onclick="deleteApplication(${application.id})">Delete</button>
-                            </td>
-                        `;
+                    <td>${application.company_name}</td>
+                    <td>${application.application_date}</td>
+                    <td>${application.application_status}</td>
+                    <td>${application.application_notes}</td>
+                    <td>
+                        <button onclick="editApplication('${application.company_name}')">Edit</button>
+                        <button onclick="deleteApplication('${application.company_name}')">Delete</button>
+                    </td>
+                `;
                         applicationTableBody.appendChild(row);
                     });
                 })
@@ -79,33 +80,60 @@
         }
 
         // Function to edit an application
-        function editApplication(applicationId) {
-            // Implement your logic here to handle editing an application
-            alert(`Editing application with ID ${applicationId}`);
+        function editApplication(applicationName) {
+            const newName = prompt("Enter new company name:", applicationName);
+            const newDate = prompt("Enter new application date:");
+            const newStatus = prompt("Enter new application status:");
+            const newNotes = prompt("Enter new application notes:");
+
+            if (newName !== null) {
+                fetch("edit_application.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `application_name=${encodeURIComponent(applicationName)}&new_name=${encodeURIComponent(newName)}&new_date=${encodeURIComponent(newDate)}&new_status=${encodeURIComponent(newStatus)}&new_notes=${encodeURIComponent(newNotes)}`,
+                })
+                    .then(response => response.text())
+                    .then(message => {
+                        alert(message);
+                        fetchApplications(); // Refresh the table
+                    })
+                    .catch(error => {
+                        console.error("Error editing application:", error);
+                        alert("An error occurred while editing the application. Please try again later.");
+                    });
+            }
         }
 
         // Function to delete an application
-        function deleteApplication(applicationId) {
-            // Implement your logic here to handle deleting an application
-            alert(`Deleting application with ID ${applicationId}`);
+        function deleteApplication(applicationName) {
+            const confirmDelete = confirm(`Are you sure you want to delete ${applicationName}?`);
+
+            if (confirmDelete) {
+                fetch("delete_application.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `application_name=${encodeURIComponent(applicationName)}`,
+                })
+                    .then(response => response.text())
+                    .then(message => {
+                        alert(message);
+                        fetchApplications(); // Refresh the table
+                    })
+                    .catch(error => {
+                        console.error("Error deleting application:", error);
+                        alert("An error occurred while deleting the application. Please try again later.");
+                    });
+            }
         }
 
         // Fetch applications when the page loads
         fetchApplications();
-
-        // Function to display the user's name
-        function displayUserInfo() {
-            // You need to implement server-side code to retrieve the user's name from the session
-            // For example, if you are using PHP, you can use $_SESSION to store and retrieve the user's name.
-            const userName = "John Doe"; // Replace this with the actual user's name fetched from the session
-
-            const userInfoContainer = document.getElementById("user-info");
-            userInfoContainer.textContent = `Welcome, ${userName}!`;
-        }
-
-        // Call the displayUserInfo function when the page loads to display the user's name
-        displayUserInfo();
     </script>
+
 </body>
 
 </html>
