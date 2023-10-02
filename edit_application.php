@@ -1,5 +1,7 @@
 <?php
+// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the application name, new name, new date, new status and new notes from the POST request
     $applicationName = $_POST['application_name'];
     $newName = $_POST['new_name'];
     $newDate = $_POST['new_date'];

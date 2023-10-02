@@ -1,6 +1,7 @@
 <?php
 session_start(); // Start the session
 
+// Check if the user is logged in
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
@@ -37,11 +38,14 @@ if (isset($_SESSION['username'])) {
         echo json_encode(array('error' => 'Database error'));
     }
 
+    // Enable error reporting
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
+    // Close the connection
     $mysqli->close();
 } else {
+    // Return an error if the user is not logged in
     header('HTTP/1.1 403 Forbidden');
     echo json_encode(array('error' => 'User not logged in'));
 }

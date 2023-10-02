@@ -1,9 +1,12 @@
 <?php
+// Check if the request method is a POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Create a new connection to the database
     $mysqli = new mysqli('127.0.0.1', 'root', '', 'notices_resources', '3307');
 
     // Check the connection
     if (!$mysqli) {
+        // Send a 500 Internal Server Error response
         die("Connection failed: " . mysqli_connect_error());
     }
 

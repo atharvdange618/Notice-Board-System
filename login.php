@@ -1,4 +1,5 @@
 <?php
+// Check if the request method is a POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Create a connection to the database

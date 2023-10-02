@@ -1,20 +1,27 @@
 <?php
+// Set error_reporting to display all errors
 error_reporting(E_ALL);
+// Set display_errors to 1 to display errors on the page
 ini_set('display_errors', 1);
 
-session_start(); // Start the session
+// Start the session
+session_start();
 
+// Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Set the server connection parameters
     $servername = "127.0.0.1";
     $username = "root";
     $password = "";
     $dbname = "notices_resources";
     $dbport = "3307";
-    
+
+    // Create a new connection to the database
     $mysqli = new mysqli($servername, $username, $password, $dbname, $dbport);
 
     // Check the connection
     if ($mysqli->connect_error) {
+        // Database connection failed, exit the script
         die("Database connection failed: " . $mysqli->connect_error);
     }
 
@@ -40,4 +47,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Close the database connection
     $mysqli->close();
 }
-?>
