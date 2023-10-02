@@ -1,6 +1,8 @@
 
 # Notice and Resources Sharing Platform
 
+![Notice-Board-System](https://socialify.git.ci/atharvdange618/Notice-Board-System/image?language=1&name=1&owner=1&theme=Light)
+
 The Notice and Resource Sharing Platform is a web-based application designed to cater specifically to final year engineering students who are actively participating in the placement process. The platform serves as a centralized hub where students can share and access important notices, resources, and information related to placements. The application is built using a combination of HTML, CSS, and JavaScript for the frontend, while PHP and MySQL are utilized for the backend and database management, respectively.
 
 **Key Features:**
